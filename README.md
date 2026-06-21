@@ -1,228 +1,248 @@
-﻿> ⚠️ **Licença restrita** — Código público para fins de portfólio. Uso, cópia ou redistribuição sem autorização do autor é proibido. Contato: undersomm@hotmail.com
+# 📦 Orders API
 
-# Undermap
+API REST para gerenciamento de pedidos desenvolvida em **Node.js** com **PostgreSQL**, autenticação **JWT** e documentação **Swagger**.
 
-[![CI](https://github.com/Anderson1280/undermap/actions/workflows/ci.yml/badge.svg)](https://github.com/Anderson1280/undermap/actions)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)
-[![License: Restrita](https://img.shields.io/badge/License-Restrita-red.svg)](LICENSE)
-[![Versão](https://img.shields.io/badge/versão-0.1.0-brightgreen)](https://github.com/Anderson1280/undermap/releases)
+---
 
-**Prospecção B2B automatizada para devs e agências web.**  
-Encontra empresas locais ativas, sem site, enriquece com dados da Receita Federal e envia cold emails personalizados — tudo pelo terminal.
+## 🗂️ Estrutura do Projeto
 
 ```
-  _   _           _
- | | | |_ __   __| | ___ _ __ _ __ ___   __ _ _ __
- | | | | '_ \ / _` |/ _ \ '__| '_ ` _ \ / _` | '_ \
- | |_| | | | | (_| |  __/ |  | | | | | | (_| | |_) |
-  \___/|_| |_|\__,_|\___|_|  |_| |_| |_|\__,_| .__/
-                                               |_|
+orders-api/
+├── src/
+│   ├── config/
+│   │   ├── database.js      # Conexão com PostgreSQL (Pool)
+│   │   ├── migrate.js       # Script de criação das tabelas
+│   │   └── swagger.js       # Configuração do Swagger/OpenAPI
+│   ├── controllers/
+│   │   ├── authController.js    # Lógica de autenticação JWT
+│   │   └── orderController.js   # Lógica de negócio dos pedidos
+│   ├── middleware/
+│   │   └── auth.js          # Middleware de verificação do JWT
+│   ├── models/
+│   │   └── orderModel.js    # Queries ao banco de dados
+│   ├── routes/
+│   │   ├── authRoutes.js    # Rotas de autenticação
+│   │   └── orderRoutes.js   # Rotas de pedidos + validações
+│   ├── utils/
+│   │   └── orderMapper.js   # Mapeamento PT → EN dos campos
+│   └── server.js            # Entry point da aplicação
+├── .env.example             # Template de variáveis de ambiente
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
 ---
 
-## O que faz
+## 🗄️ Estrutura do Banco de Dados
 
-1. **Varre o Google Maps** por empresas no nicho + região escolhidos
-2. **Filtra** somente as que não têm site cadastrado
-3. **Enriquece** cada lead com CNPJ, porte, nome do sócio (via Receita Federal)
-4. **Gera e envia** cold emails personalizados com o gargalo específico do nicho
+```sql
+-- Tabela de pedidos
+CREATE TABLE "Order" (
+  "orderId"      VARCHAR(100) PRIMARY KEY,
+  "value"        NUMERIC(15, 2) NOT NULL,
+  "creationDate" TIMESTAMPTZ NOT NULL,
+  "createdAt"    TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tabela de itens (relacionada com Order via FK + CASCADE)
+CREATE TABLE "Items" (
+  "id"        SERIAL PRIMARY KEY,
+  "orderId"   VARCHAR(100) NOT NULL REFERENCES "Order"("orderId") ON DELETE CASCADE,
+  "productId" INTEGER NOT NULL,
+  "quantity"  INTEGER NOT NULL,
+  "price"     NUMERIC(15, 2) NOT NULL
+);
+```
 
 ---
 
-## Demo
+## 🔄 Mapeamento de Campos (Transformação)
+
+| Entrada (PT)     | Banco / Resposta (EN) |
+|------------------|-----------------------|
+| `numeroPedido`   | `orderId`             |
+| `valorTotal`     | `value`               |
+| `dataCriacao`    | `creationDate`        |
+| `idItem`         | `productId` (int)     |
+| `quantidadeItem` | `quantity`            |
+| `valorItem`      | `price`               |
+
+---
+
+## 🚀 Como Executar
+
+### 1. Pré-requisitos
+- Node.js >= 18
+- PostgreSQL >= 13
+
+### 2. Instalação
 
 ```bash
-$ undermap scan marmoraria "Zona Leste São Paulo" --limite 20
-
-  Undermap v0.1.0 — Prospecção B2B automatizada
-
-  ── Etapa 1 · Varredura geolocalizada ──────────────────────────────
-  ✔ 18 empresas sem site encontradas
-
-  ── Etapa 2 · Enriquecimento de dados ──────────────────────────────
-   Empresa               ⭐    Porte  Sócio       E-mail              Status
-   Marmoraria Zago       4.8   ME     Roberto     roberto@zago...     ✔ qualificado
-   Granitos Silva        4.6   EPP    Ana Paula   —                   ✔ qualificado
-   Arte em Pedras Costa  4.9   ME     Marcos      marcos@arte...      ✔ qualificado
-
-  ✔ 14 leads qualificados — salvos localmente
-
-  ┌──────────────────────────────────────────────────┐
-  │ Pronto! Para enviar os e-mails:                  │
-  │   undermap scan marmoraria "Zona Leste SP" -e    │
-  └──────────────────────────────────────────────────┘
+git clone <seu-repositorio>
+cd orders-api
+npm install
 ```
 
----
-
-## Instalação
-
-### Pré-requisitos
-
-- Python 3.10+
-- Git
-- Conta Google Cloud (para a Places API) — [criar aqui](https://console.cloud.google.com)
-- Gmail com App Password — [configurar aqui](https://myaccount.google.com/apppasswords)
-
-### Passo a passo
+### 3. Configuração
 
 ```bash
-# 1. Clone o repositório
-git clone https://github.com/Anderson1280/undermap.git
-cd undermap
-
-# 2. Crie o ambiente virtual
-python -m venv .venv
-source .venv/bin/activate      # Linux/Mac
-# .venv\Scripts\activate       # Windows
-
-# 3. Instale o projeto
-pip install -e .
-
-# 4. Configure as credenciais
 cp .env.example .env
-# Edite o .env com sua chave do Google e senha SMTP
-
-# 5. Teste a instalação
-undermap --help
+# Edite o .env com suas credenciais do PostgreSQL e JWT secret
 ```
 
-### Configuração do `.env`
-
-```env
-GOOGLE_API_KEY=sua_chave_aqui
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=seuemail@gmail.com
-SMTP_PASSWORD=sua_app_password
-SENDER_NAME=Seu Nome
-SENDER_EMAIL=seuemail@gmail.com
-```
-
----
-
-## Uso
-
-### Comandos disponíveis
+### 4. Criar as tabelas
 
 ```bash
-# Ver todos os nichos disponíveis
-undermap nichos
-
-# Varrer um nicho e salvar leads (sem enviar e-mails)
-undermap scan <nicho> "<região>"
-
-# Varrer E enviar e-mails
-undermap scan <nicho> "<região>" --enviar
-
-# Testar sem usar a API (dados fictícios)
-undermap scan <nicho> "<região>" --mock
-
-# Preview do e-mail antes de enviar
-undermap preview <nicho>
-
-# Ver leads salvos localmente
-undermap leads
-undermap leads --status qualified
+npm run migrate
 ```
 
-### Exemplos reais
+### 5. Iniciar o servidor
 
 ```bash
-# Marmorarias na Zona Leste de SP
-undermap scan marmoraria "Zona Leste São Paulo" --limite 50
+# Produção
+npm start
 
-# Restaurantes em Campinas, já enviando e-mails
-undermap scan restaurante "Centro Campinas" --enviar
-
-# Clínicas em Curitiba, raio de 10km
-undermap scan clinica "Curitiba" --raio 10000
-
-# Testar fluxo completo sem gastar cota da API
-undermap scan oficina "Belo Horizonte" --mock --enviar
+# Desenvolvimento (com hot reload)
+npm run dev
 ```
 
 ---
 
-## Nichos disponíveis
+## 📡 Endpoints
 
-| Chave         | Nicho                    | Gargalo mapeado                        |
-|---------------|--------------------------|----------------------------------------|
-| `restaurante` | Restaurantes             | Dependência de taxas do iFood          |
-| `clinica`     | Clínicas e Consultórios  | Falta de agendamento online 24h        |
-| `oficina`     | Oficinas Mecânicas       | Sem registro digital de orçamentos     |
-| `marmoraria`  | Marmorarias e Pedras     | Portfólio apenas no WhatsApp           |
-| `petshop`     | Pet Shops e Veterinárias | Agenda de tosa no papel                |
-| `salao`       | Salões e Barbearias      | Dependência de plataformas caras       |
-| `academia`    | Academias e Studios      | Captação apenas por indicação          |
-| `construtora` | Construtoras e Reformas  | Portfólio sem credibilidade visual     |
+### 🔐 Autenticação
 
----
+| Método | URL           | Descrição           | Auth |
+|--------|---------------|---------------------|------|
+| POST   | `/auth/login` | Obter token JWT     | ❌   |
 
-## Arquitetura
+### 📦 Pedidos
 
-```
-undermap/
-├── core/
-│   ├── scanner.py      # Varredura Google Maps + filtro de ausência digital
-│   ├── enricher.py     # Enriquecimento via Receita Federal (BrasilAPI)
-│   ├── mailer.py       # Cold mailing personalizado por nicho
-│   └── niches.py       # Matriz de gargalos — adicione novos nichos aqui
-├── data/
-│   └── models.py       # Modelos Pydantic + SQLAlchemy (SQLite local)
-├── cli/
-│   └── main.py         # Interface de terminal (Typer + Rich)
-├── tests/              # Testes unitários (pytest)
-└── .github/workflows/  # CI: lint + testes + security scan
-```
-
-**Stack:** Python 3.10+ · Typer · Rich · httpx · Pydantic v2 · SQLAlchemy · Jinja2
+| Método | URL               | Descrição                | Auth |
+|--------|-------------------|--------------------------|------|
+| POST   | `/order`          | Criar pedido             | ✅   |
+| GET    | `/order/list`     | Listar todos os pedidos  | ✅   |
+| GET    | `/order/:orderId` | Obter pedido por ID      | ✅   |
+| PUT    | `/order/:orderId` | Atualizar pedido         | ✅   |
+| DELETE | `/order/:orderId` | Remover pedido           | ✅   |
 
 ---
 
-## Desenvolvimento
+## 📋 Exemplos de uso
+
+### 1. Login
 
 ```bash
-# Instalar dependências de dev
-pip install -e ".[dev]"
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "admin123"}'
+```
 
-# Rodar testes
-pytest tests/ -v
+### 2. Criar pedido
 
-# Lint e formatação
-ruff check .
-ruff format .
+```bash
+curl -X POST http://localhost:3000/order \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <seu_token>" \
+  -d '{
+    "numeroPedido": "v10089015vdb-01",
+    "valorTotal": 10000,
+    "dataCriacao": "2023-07-19T12:24:11.5299601+00:00",
+    "items": [
+      {
+        "idItem": "2434",
+        "quantidadeItem": 1,
+        "valorItem": 1000
+      }
+    ]
+  }'
+```
 
-# Scan de segurança
-bandit -r core/ cli/ data/ -ll
+### 3. Buscar pedido
+
+```bash
+curl http://localhost:3000/order/v10089015vdb-01 \
+  -H "Authorization: Bearer <seu_token>"
+```
+
+### 4. Listar todos
+
+```bash
+curl http://localhost:3000/order/list \
+  -H "Authorization: Bearer <seu_token>"
+```
+
+### 5. Atualizar pedido
+
+```bash
+curl -X PUT http://localhost:3000/order/v10089015vdb-01 \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <seu_token>" \
+  -d '{
+    "valorTotal": 15000,
+    "dataCriacao": "2023-07-19T12:24:11.5299601+00:00",
+    "items": [
+      {
+        "idItem": "9999",
+        "quantidadeItem": 3,
+        "valorItem": 5000
+      }
+    ]
+  }'
+```
+
+### 6. Deletar pedido
+
+```bash
+curl -X DELETE http://localhost:3000/order/v10089015vdb-01 \
+  -H "Authorization: Bearer <seu_token>"
 ```
 
 ---
 
-## Planos
+## 📖 Documentação Swagger
 
-| Plano     | Leads/mês | Nichos  | Preço          |
-|-----------|-----------|---------|----------------|
-| Starter   | 50        | 3       | R$ 67/mês      |
-| Pro       | 300       | Todos   | R$ 147/mês     |
-| Vitalício | Ilimitado | Todos   | R$ 397 único   |
+Após iniciar o servidor, acesse:
 
-→ Contato: undersomm@hotmail.com
+```
+http://localhost:3000/api-docs
+```
 
 ---
 
-## Contribuindo
+## 🔒 Autenticação JWT
 
-1. Fork o repositório
-2. Crie uma branch: `git checkout -b feat/novo-nicho`
-3. Adicione seu nicho em `core/niches.py`
-4. Rode os testes: `pytest tests/`
-5. Abra um Pull Request
+Todas as rotas de `/order` requerem um token JWT válido.
+
+1. Faça `POST /auth/login` com as credenciais
+2. Copie o `token` da resposta
+3. Use no header: `Authorization: Bearer <token>`
 
 ---
 
-## Licença
+## ⚙️ Variáveis de Ambiente
 
-© 2025 Anderson — Licença restrita. Veja [LICENSE](LICENSE) para detalhes.
+| Variável         | Descrição                    | Padrão        |
+|------------------|------------------------------|---------------|
+| `PORT`           | Porta do servidor            | `3000`        |
+| `DB_HOST`        | Host do PostgreSQL           | `localhost`   |
+| `DB_PORT`        | Porta do PostgreSQL          | `5432`        |
+| `DB_NAME`        | Nome do banco de dados       | `orders_db`   |
+| `DB_USER`        | Usuário do PostgreSQL        | `postgres`    |
+| `DB_PASSWORD`    | Senha do PostgreSQL          | —             |
+| `JWT_SECRET`     | Chave secreta para JWT       | —             |
+| `JWT_EXPIRES_IN` | Expiração do token           | `24h`         |
+| `ADMIN_USER`     | Usuário admin para login     | `admin`       |
+| `ADMIN_PASSWORD` | Senha admin para login       | `admin123`    |
 
+---
+
+## 🛠️ Tecnologias
+
+- **Node.js** + **Express** — Servidor HTTP
+- **PostgreSQL** + **pg** — Banco de dados relacional
+- **JWT** (jsonwebtoken) — Autenticação stateless
+- **express-validator** — Validação de entrada
+- **swagger-jsdoc** + **swagger-ui-express** — Documentação interativa
+- **dotenv** — Variáveis de ambiente
