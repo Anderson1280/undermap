@@ -4,7 +4,7 @@
 # Undermap
 
 [![CI](https://github.com/seu-usuario/undermap/actions/workflows/ci.yml/badge.svg)](https://github.com/seu-usuario/undermap/actions)
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)
+[[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)](https://github.com/Anderson1280/undermap/releases)
 [![License: Restrita](https://img.shields.io/badge/License-Restrita-red.svg)](LICENSE)
 [[![Versão](https://img.shields.io/badge/vers%C3%A3o-0.1.0-brightgreen)](https://github.com/seu-usuario/undermap/releases)](https://github.com/Anderson1280/undermap/actions/workflows/ci.yml/badge.svg)
 
