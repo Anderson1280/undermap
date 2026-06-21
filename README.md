@@ -1,4 +1,4 @@
-> ⚠️ **Licença restrita** — Código público para fins de portfólio. Uso, cópia ou redistribuição sem autorização do autor é proibido. Contato: undersomm@hotmail.com
+﻿> ⚠️ **Licença restrita** — Código público para fins de portfólio. Uso, cópia ou redistribuição sem autorização do autor é proibido. Contato: undersomm@hotmail.com
 
 # Undermap
 
@@ -225,3 +225,4 @@ bandit -r core/ cli/ data/ -ll
 ## Licença
 
 © 2025 Anderson — Licença restrita. Veja [LICENSE](LICENSE) para detalhes.
+
