@@ -6,7 +6,7 @@
 [![CI](https://github.com/seu-usuario/undermap/actions/workflows/ci.yml/badge.svg)](https://github.com/seu-usuario/undermap/actions)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)
 [![License: Restrita](https://img.shields.io/badge/License-Restrita-red.svg)](LICENSE)
-[![Versão](https://img.shields.io/badge/vers%C3%A3o-0.1.0-brightgreen)](https://github.com/seu-usuario/undermap/releases)
+[[![Versão](https://img.shields.io/badge/vers%C3%A3o-0.1.0-brightgreen)](https://github.com/seu-usuario/undermap/releases)](https://github.com/Anderson1280/undermap/actions/workflows/ci.yml/badge.svg)
 
 **Prospecção B2B automatizada para devs e agências web.**  
 Encontra empresas locais ativas, sem site, enriquece com dados da Receita Federal e envia cold emails personalizados — tudo pelo terminal.
@@ -210,7 +210,7 @@ bandit -r core/ cli/ data/ -ll
 | Pro      | 500       | Todos   | R$ 97/mês |
 | Agência  | Ilimitado | Todos   | R$ 297/mês|
 
-→ [Assinar em undermap.com.br](https://undermap.com.br)
+→ 
 
 ---
 
