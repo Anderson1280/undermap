@@ -10,7 +10,7 @@
 
 **Não abra uma Issue pública** para reportar vulnerabilidades de segurança.
 
-Envie um e-mail para **security@undermap.com.br** com:
+Envie um e-mail para **undersomm@hotmail.com** com:
 
 - Descrição detalhada da vulnerabilidade
 - Passos para reproduzir
