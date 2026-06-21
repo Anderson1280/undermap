@@ -1,12 +1,11 @@
-> ⚠️ **Licença restrita** — Código público para fins de portfólio. 
-> Uso, cópia ou redistribuição sem autorização do autor é proibido. 
-> Contato: undersomm@hotmail.com
+> ⚠️ **Licença restrita** — Código público para fins de portfólio. Uso, cópia ou redistribuição sem autorização do autor é proibido. Contato: undersomm@hotmail.com
+
 # Undermap
 
-[![CI](https://github.com/seu-usuario/undermap/actions/workflows/ci.yml/badge.svg)](https://github.com/seu-usuario/undermap/actions)
-[[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)](https://github.com/Anderson1280/undermap/releases)
+[![CI](https://github.com/Anderson1280/undermap/actions/workflows/ci.yml/badge.svg)](https://github.com/Anderson1280/undermap/actions)
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://www.python.org)
 [![License: Restrita](https://img.shields.io/badge/License-Restrita-red.svg)](LICENSE)
-[[![Versão](https://img.shields.io/badge/vers%C3%A3o-0.1.0-brightgreen)](https://github.com/seu-usuario/undermap/releases)](https://github.com/Anderson1280/undermap/actions/workflows/ci.yml/badge.svg)
+[![Versão](https://img.shields.io/badge/versão-0.1.0-brightgreen)](https://github.com/Anderson1280/undermap/releases)
 
 **Prospecção B2B automatizada para devs e agências web.**  
 Encontra empresas locais ativas, sem site, enriquece com dados da Receita Federal e envia cold emails personalizados — tudo pelo terminal.
@@ -24,10 +23,10 @@ Encontra empresas locais ativas, sem site, enriquece com dados da Receita Federa
 
 ## O que faz
 
-1. **Varre o Google Maps** por empresas no nicho + região escolhidos  
-2. **Filtra** somente as que não têm site cadastrado  
-3. **Enriquece** cada lead com CNPJ, porte, nome do sócio (via Receita Federal)  
-4. **Gera e envia** cold emails personalizados com o gargalo específico do nicho  
+1. **Varre o Google Maps** por empresas no nicho + região escolhidos
+2. **Filtra** somente as que não têm site cadastrado
+3. **Enriquece** cada lead com CNPJ, porte, nome do sócio (via Receita Federal)
+4. **Gera e envia** cold emails personalizados com o gargalo específico do nicho
 
 ---
 
@@ -38,22 +37,21 @@ $ undermap scan marmoraria "Zona Leste São Paulo" --limite 20
 
   Undermap v0.1.0 — Prospecção B2B automatizada
 
-  ── Etapa 1 · Varredura geolocalizada ─────────────────────────────────
+  ── Etapa 1 · Varredura geolocalizada ──────────────────────────────
   ✔ 18 empresas sem site encontradas
 
-  ── Etapa 2 · Enriquecimento de dados ─────────────────────────────────
+  ── Etapa 2 · Enriquecimento de dados ──────────────────────────────
    Empresa               ⭐    Porte  Sócio       E-mail              Status
    Marmoraria Zago       4.8   ME     Roberto     roberto@zago...     ✔ qualificado
    Granitos Silva        4.6   EPP    Ana Paula   —                   ✔ qualificado
    Arte em Pedras Costa  4.9   ME     Marcos      marcos@arte...      ✔ qualificado
-   ...
 
   ✔ 14 leads qualificados — salvos localmente
 
-  ┌─────────────────────────────────────────────────┐
-  │ Pronto! Para enviar os e-mails:                 │
-  │   undermap scan marmoraria "Zona Leste SP" -e   │
-  └─────────────────────────────────────────────────┘
+  ┌──────────────────────────────────────────────────┐
+  │ Pronto! Para enviar os e-mails:                  │
+  │   undermap scan marmoraria "Zona Leste SP" -e    │
+  └──────────────────────────────────────────────────┘
 ```
 
 ---
@@ -71,7 +69,7 @@ $ undermap scan marmoraria "Zona Leste São Paulo" --limite 20
 
 ```bash
 # 1. Clone o repositório
-git clone https://github.com/seu-usuario/undermap.git
+git clone https://github.com/Anderson1280/undermap.git
 cd undermap
 
 # 2. Crie o ambiente virtual
@@ -149,16 +147,16 @@ undermap scan oficina "Belo Horizonte" --mock --enviar
 
 ## Nichos disponíveis
 
-| Chave         | Nicho                     | Gargalo mapeado                          |
-|---------------|---------------------------|------------------------------------------|
-| `restaurante` | Restaurantes              | Dependência de taxas do iFood            |
-| `clinica`     | Clínicas e Consultórios   | Falta de agendamento online 24h          |
-| `oficina`     | Oficinas Mecânicas        | Sem registro digital de orçamentos       |
-| `marmoraria`  | Marmorarias e Pedras      | Portfólio apenas no WhatsApp             |
-| `petshop`     | Pet Shops e Veterinárias  | Agenda de tosa no papel                  |
-| `salao`       | Salões e Barbearias       | Dependência de plataformas caras         |
-| `academia`    | Academias e Studios       | Captação apenas por indicação            |
-| `construtora` | Construtoras e Reformas   | Portfólio sem credibilidade visual       |
+| Chave         | Nicho                    | Gargalo mapeado                        |
+|---------------|--------------------------|----------------------------------------|
+| `restaurante` | Restaurantes             | Dependência de taxas do iFood          |
+| `clinica`     | Clínicas e Consultórios  | Falta de agendamento online 24h        |
+| `oficina`     | Oficinas Mecânicas       | Sem registro digital de orçamentos     |
+| `marmoraria`  | Marmorarias e Pedras     | Portfólio apenas no WhatsApp           |
+| `petshop`     | Pet Shops e Veterinárias | Agenda de tosa no papel                |
+| `salao`       | Salões e Barbearias      | Dependência de plataformas caras       |
+| `academia`    | Academias e Studios      | Captação apenas por indicação          |
+| `construtora` | Construtoras e Reformas  | Portfólio sem credibilidade visual     |
 
 ---
 
@@ -204,13 +202,13 @@ bandit -r core/ cli/ data/ -ll
 
 ## Planos
 
-| Plano    | Leads/mês | Nichos  | Preço     |
-|----------|-----------|---------|-----------|
-| Starter  | 20        | 3       | Gratuito  |
-| Pro      | 500       | Todos   | R$ 97/mês |
-| Agência  | Ilimitado | Todos   | R$ 297/mês|
+| Plano     | Leads/mês | Nichos  | Preço          |
+|-----------|-----------|---------|----------------|
+| Starter   | 50        | 3       | R$ 67/mês      |
+| Pro       | 300       | Todos   | R$ 147/mês     |
+| Vitalício | Ilimitado | Todos   | R$ 397 único   |
 
-→ 
+→ Contato: undersomm@hotmail.com
 
 ---
 
@@ -226,4 +224,4 @@ bandit -r core/ cli/ data/ -ll
 
 ## Licença
 
-MIT © 2025 — Veja [LICENSE](LICENSE) para detalhes.
+© 2025 Anderson — Licença restrita. Veja [LICENSE](LICENSE) para detalhes.
