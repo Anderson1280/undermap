@@ -1,4 +1,4 @@
-> ⚠️ **Licença restrita** — Código público para fins de portfólio. Uso, cópia ou redistribuição sem autorização do autor é proibido. Contato: andersonsomm@hotmail.com
+**Licença restrita** — Código público para fins de portfólio. Uso, cópia ou redistribuição sem autorização do autor é proibido. Contato: andersonsomm@hotmail.com
 
 # Undermap
 
