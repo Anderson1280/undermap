@@ -246,3 +246,32 @@ Todas as rotas de `/order` requerem um token JWT vÃ¡lido.
 - **express-validator** â€” ValidaÃ§Ã£o de entrada
 - **swagger-jsdoc** + **swagger-ui-express** â€” DocumentaÃ§Ã£o interativa
 - **dotenv** â€” VariÃ¡veis de ambiente
+
+---
+
+## Security & Compliance
+
+### Proteção de dados — LGPD
+
+O Undermap coleta e processa **apenas dados públicos** disponíveis em:
+- Google Maps (nome, endereço, telefone, avaliações)
+- Receita Federal — base pública de CNPJs (razão social, porte, QSA)
+
+Nenhum dado pessoal sensível é coletado. Os leads salvos ficam exclusivamente no seu computador (`undermap.db`).
+
+
+### Opt-out
+
+Todo e-mail enviado inclui obrigatoriamente:
+
+> Para não receber mais e-mails, responda 'remover' neste e-mail.
+
+### Secrets e credenciais
+
+- Chaves de API ficam **exclusivamente no `.env` local**
+- O `.env` está no `.gitignore` — nunca vai para o GitHub
+- O repositório público não contém nenhuma credencial real
+
+### Uso responsável
+
+Esta ferramenta deve ser utilizada em conformidade com a **LGPD — Lei 13.709/2018**.
