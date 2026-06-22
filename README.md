@@ -208,7 +208,7 @@ bandit -r core/ cli/ data/ -ll
 | Pro       | 300       | Todos   | R$ 147/mês     |
 | Vitalício | Ilimitado | Todos   | R$ 397 único   |
 
-→ Contato: andersonsomm@hotmail.com
+→ Contato: undersomm@hotmail.com
 
 ---
 
