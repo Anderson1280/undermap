@@ -1,4 +1,4 @@
-"""
+﻿"""
 Undermap CLI — Interface de terminal.
 
 Comandos disponíveis:
@@ -26,7 +26,7 @@ from rich.table import Table
 from rich.text import Text
 
 # Carrega .env antes de qualquer import do projeto
-load_dotenv()
+load_dotenv(override=True)
 
 from core.enricher import Enricher
 from core.mailer import MailerConfig, Mailer, preview_email
@@ -74,8 +74,8 @@ def _get_mailer_config() -> MailerConfig:
         smtp_port     = int(os.getenv("SMTP_PORT", "587")),
         smtp_user     = os.getenv("SMTP_USER", ""),
         smtp_password = os.getenv("SMTP_PASSWORD", ""),
-        sender_name   = os.getenv("SENDER_NAME", ""),
-        sender_email  = os.getenv("SENDER_EMAIL", ""),
+        sender_name   = os.getenv("SENDER_NAME") or "Anderson",
+        sender_email  = os.getenv("SENDER_EMAIL") or "undersomm@hotmail.com",
     )
 
 
@@ -288,7 +288,7 @@ def preview(
     """
     Gera um [bold]preview do e-mail[/] sem enviar nada — perfeito para ajustar o texto.
     """
-    _check_env("SENDER_NAME", "SENDER_EMAIL")
+    # credenciais opcionais para preview
 
     from data.models import PartnerInfo
     lead = LeadEnriched(
@@ -372,3 +372,7 @@ def version():
 
 if __name__ == "__main__":
     app()
+
+
+
+
